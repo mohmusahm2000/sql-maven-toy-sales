@@ -1,0 +1,1 @@
+CREATE DATABASE mavin_toy_sales_db;
