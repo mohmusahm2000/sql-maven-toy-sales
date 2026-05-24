@@ -1,7 +1,5 @@
 # Introduction
-🧸 Dive into the toy retail industry! Focusing on **Maven Toys** (a fictitious chain in Mexico), this project explores 💰 revenue trends, 📦 inventory efficiency, and 📉 product profitability. It demonstrates how SQL can drive high-level business strategy.
-
-![overview](assets/overview.png)
+🧸 Dive into the toy retail industry! Focusing on **Maven Toys** (a fictitious chain in Mexico), this project explores 💰 revenue trends, 📦 inventory efficiency, and 📉 product profitability. It demonstrates how SQL can drive high-level business strategy.  
 
 🔍 **SQL queries?** Check them out here: [sql_queries folder](/sql_queries/)
 
