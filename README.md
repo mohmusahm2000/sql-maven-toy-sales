@@ -1,142 +1,70 @@
-# Introduction
-🧸 Dive into the toy retail industry! Focusing on **Maven Toys** (a fictitious chain in Mexico), this project explores 💰 revenue trends, 📦 inventory efficiency, and 📉 product profitability. It demonstrates how SQL can drive high-level business strategy.  
+# Maven Toys Mexico: Sales & Operational Performance Analysis
 
-🔍 **SQL queries?** Check them out here: [sql_queries folder](/sql_queries/)
+# Project Background
+Maven Toys is a growing retail chain operating 50 store locations across Mexico. The company offers a catalog of 35 distinct toy products and operates across four main real estate categories: Downtown, Commercial, Residential, and Airports. As a Data Analyst at Maven Toys, I was tasked with conducting a diagnostic analysis of the company's operational performance. Despite experiencing strong top-line organic growth, executive leadership suspected hidden inefficiencies regarding inventory management, real estate investments, and product portfolio profitability.
 
-# Background
-Driven by a quest to solve real-world operational challenges, this project was born from a desire to apply advanced SQL techniques to a large-scale retail dataset. The goal was not just to write queries, but to answer critical business questions about where the company is losing money and where it should expand.
+Insights and recommendations are provided on the following key areas:
+- **Sales Trends & Seasonality:** Evaluating overall YoY growth and monthly cyclical patterns.
+- **Location & Footprint Efficiency:** Assessing the actual financial yield of different store locations.
+- **Product Portfolio Optimization:** Identifying the core drivers of revenue vs. dead stock.
+- **Supply Chain & Operational Risk:** Quantifying the daily financial impact of inventory stockouts.
 
-The data contains over **800,000 sales records** across 50 locations, including details on products, inventory, and daily transactions.
+The SQL queries used to inspect and clean the data for this analysis can be found here [Link to SQL file].
 
-### The questions I wanted to answer through my SQL queries were:
+Targeted SQL queries regarding various business questions can be found here [Link to SQL file].
 
-1. What is the overall financial health and growth of the company?
-2. How is revenue trending month-over-month?
-3. Which store locations are the most efficient (Revenue vs. Volume)?
-4. Which products drive the bulk of the revenue (The 80/20 Rule)?
-5. Which products are the least profitable and should be dropped?
-6. What is the volume of products currently out of stock?
-7. How much revenue is being lost daily due to these stockouts?
-8. What are the daily sales patterns to optimize staffing?
+An interactive Power BI dashboard used to report and explore sales and inventory trends can be found here [Link to Dashboard].
 
-# Tools I Used
-For my deep dive into the retailer's performance, I harnessed the power of several key tools, focusing heavily on database manipulation:
+# Data Structure & Initial Checks
+The company's main database structure consists of four interconnected tables containing extensive historical transactional data. A description of each table is as follows:
+- **sales_fact:** Contains daily transactional records including store ID, product ID, date, and units sold.
+- **products_dim:** Contains product-level details including product name, category, cost, and retail price.
+- **stores_dim:** Contains geographical and categorical data for the 50 branches, including location type and city.
+- **inventory_dim:** Contains daily stock-on-hand snapshots for every product at every store location.
 
-- **SQL:** The backbone of my analysis, used for 100% of the data extraction, cleaning, and logic implementation (CTEs, Window Functions, Aggregations).
-- **PostgreSQL:** The chosen database management system to host and query the raw CSV files.
-- **Visual Studio Code:** My go-to for database management and executing SQL scripts.
-- **Git & GitHub:** Essential for version control and sharing my SQL scripts and analysis.
-- **Excel:** Used **strictly for visualization** (creating the charts/heatmaps based on the SQL outputs). 
+[Entity Relationship Diagram here]
 
-# The Analysis
-Each query for this project aimed at investigating specific operational bottlenecks. Here’s how I approached each question:
+# Executive Summary
+### Overview of Findings
+Maven Toys is experiencing robust market penetration, with Year-to-Date (YTD) volume growing by 40.8% and revenue increasing by 30.9% to reach a Trailing Twelve Months (TTM) total of $9.12M. However, this aggressive growth masks severe operational bottlenecks: the company has over-expanded into low-yielding Downtown real estate, and systemic supply chain failures (frequent stockouts of high-demand items) are bleeding daily revenue. Focusing on protecting the top 15 products and shifting CapEx to transit hubs will significantly improve margin efficiency.
 
-### 1. Overall Executive Performance
-To evaluate the true financial momentum of the business, I moved beyond simple totals. I calculated the **Trailing 12 Months (TTM)** revenue and utilized a **Year-to-Date (YTD)** comparison to neutralize seasonality bias.
+[Overall Executive Dashboard Screenshot here]
 
-* **View SQL Query:** [1_overall_performance.sql](project_sql/1_overall_performance.sql)
+# Insights Deep Dive
+### Sales Trends & Seasonality:
+* **Organic growth is strong but volume-driven.** YTD 2023 revenue reached $6.96M compared to $5.32M in the previous year (+30.9%). Notably, units sold outpaced revenue growth (+40.8%), indicating heavier discounting or a shift toward lower-priced items to capture market share.
+* **Extreme seasonal reliance on Q4.** December 2022 generated a massive, disproportionate revenue spike (the holiday peak), followed by a steep contraction in January 2023. This post-holiday mean reversion drives Month-over-Month (MoM) growth deeply into negative territory in Q1.
 
-Here's the executive snapshot of the performance:
-- **Current Run Rate (TTM):** The company generated **$9.1M** in revenue over the last 12 months.
-- **Real Growth:** By comparing normalized YTD periods, we see a **30.9%** increase in revenue and a **40.8%** increase in sales volume, indicating strong organic growth.
+[Line Chart Visualization: Monthly Revenue & MoM Growth]
 
-![Executive Snapshot](assets/key-performance-indicators-ttm-ytd-summary.png)
+### Location & Footprint Efficiency:
+* **Downtown stores are over-saturated.** Maven Toys has heavily invested in Downtown areas (29 stores), but these locations yield the lowest average monthly revenue per store (under $14,000). 
+* **Airport locations are highly lucrative.** Despite having only 3 stores globally, Airport locations dominate unit economics, generating an exceptional average of >$20,000 per store monthly. They capture a high-intent, captive audience.
 
-### 2. Monthly Revenue & Growth Trends
-To understand seasonality, I analyzed sales trends over the 18-month period, using Window Functions (`LAG`) to calculate Month-over-Month growth rates.
+[Bar Chart Visualization: Store Count vs. Avg Monthly Revenue by Location]
 
-* **View SQL Query:** [2_monthly_sales_trend.sql](project_sql/2_monthly_sales_trend.sql)
+### Product Portfolio Optimization:
+* **Revenue is heavily concentrated (Pareto Principle).** Out of a 35-item catalog, just 15 products generate exactly 80% of total corporate revenue. 
+* **The "Vital Few" dominate.** `Lego Bricks` is the undisputed leader, generating ~$1.5M TTM revenue independently, followed closely by `Magic Sand` ($1.0M). 
+* **The Tail-End is draining resources.** Products like `Classic Dominoes` ($5k total TTM profit) and `Teddy Bear` (which moves high volume but yields only $8k total profit, indicating a ~$2 margin) are occupying valuable shelf space with minimal ROI.
 
-Here's the breakdown of the financial trends:
-- **Seasonality:** A massive spike is visible in December (Holiday Season), followed by a return to baseline.
-- **Stability:** Despite fluctuations, the overall trend line is positive year-over-year.
+[Pareto Chart Visualization: Cumulative Revenue by Product]
 
-![Monthly Trends](assets/monthly-revenue-&-mom-growth-trend.png)
-*Dual-axis chart visualizing revenue vs. growth percentage*
+### Supply Chain & Operational Risk:
+* **Weekends dictate operational flow.** A daily sales heatmap reveals that Saturdays contribute 20% to 29% of weekly sales across almost all branches, followed by Fridays. Tuesdays and Wednesdays drop to 8%-10%.
+* **Stockouts are costing tangible daily revenue.** Out-of-stock instances for top-tier products are inducing severe financial penalties. For example, stockouts of `Lego Bricks` at high-performing stores like Ciudad de Mexico 2 and Guanajuato 1 cost the company >$130 in lost revenue *every single day* the item is missing.
 
-### 3. Location Efficiency Analysis
-I wanted to know not just which store sells the *most*, but which is the most *efficient*. I compared the number of stores in a location type against their average revenue.
+[Bar Chart Visualization: Daily Revenue at Risk by Store-Product]
 
-* **View SQL Query:** [3_location_profitability.sql](sql_queries/3_location_profitability.sql)
+# Recommendations:
+Based on the insights and findings above, we recommend the Executive and Operations teams consider the following:
 
-Here's the breakdown of store efficiency:
-- **The Airport Surprise:** While "Downtown" has the volume, **Airport** locations generate the highest revenue *per store*.
-- **Expansion Opportunity:** This suggests a strategy of opening more Airport locations rather than Residential ones.
+* Downtown locations show diminishing returns while transit hubs excel. **Freeze retail expansion in Downtown markets and re-route Capital Expenditure (CapEx) to scale small-footprint kiosks in Airports and commercial transit centers.**
+* 15 products drive 80% of revenue, yet frequently suffer from stockouts. **Implement an Automated Re-order Point (ROP) system with high safety stock buffers specifically for these 15 items. Treat out-of-stock alerts for Lego Bricks and Magic Sand as operational emergencies.**
+* The bottom 5 products generate negligible profit but consume warehousing space. **Discontinue procurement for items like Classic Dominoes and Uno, and launch a clearance sale to free up capacity for high-margin SKU lines.**
+* Customer foot traffic heavily skews toward the weekend. **Dynamically optimize store staffing schedules by maximizing front-line workforce during the Friday-Saturday surge, and scaling down shifts during the Tuesday-Wednesday lull to reduce payroll overhead.**
 
-![Location Efficiency](images/avg-revenue-vs-store-count-by-location.png)
-*Bar chart comparing total store count vs. average revenue efficiency*
-
-### 4. Product Strategy: The Pareto Principle (80/20)
-To optimize the catalog, I used Window Functions to calculate the cumulative percentage of revenue contributed by products. This identifies the "Vital Few" vs. the "Trivial Many".
-
-* **View SQL Query:** [4_pareto_analysis.sql](sql_queries/4_pareto_analysis.sql)
-
-Here's the breakdown of product contribution:
-- **Vital Few:** Approximately **20-25% of products contribute to 80% of total revenue**.
-- **Action:** These products must never be out of stock.
-
-![Pareto Analysis](images/pareto-analysis-product-revenue-contribution.png)
-*Pareto Chart showing the cumulative revenue curve*
-
-### 5. Least Profitable Products
-Identifying the bottom performers is just as important as finding the winners. This query isolates products with the lowest profit margins or total profit contribution.
-
-* **View SQL Query:** [5_least_profitable_products.sql](sql_queries/5_least_profitable_products.sql)
-
-Here's the breakdown:
-- **Discontinuation Candidates:** Products like "Classic Dominoes" and certain card games are generating minimal profit and cluttering the inventory.
-- **Strategy:** Recommending a clearance sale followed by discontinuation.
-
-![Least Profitable](images/least-5-profitable-products-ttm.png)
-*Bar chart showing the bottom 5 products by profitability*
-
-### 6. Stockout Volume Analysis
-Before calculating the financial impact, I needed to assess the scale of the inventory problem. This query counts how many units are currently out of stock across the network.
-
-* **View SQL Query:** [6_stockout_product_volume.sql](sql_queries/6_stockout_product_volume.sql)
-
-- **Insight:** Stockouts are not isolated; they are widespread across major high-traffic stores, indicating a systemic supply chain issue rather than a local management error.
-
-### 7. Inventory Risk: Daily Lost Revenue
-The most critical part of the analysis was identifying where money is being left on the table. I calculated potential lost revenue for high-demand items that are out of stock.
-
-* **View SQL Query:** [7_inventory_risk_analysis.sql](sql_queries/7_inventory_risk_analysis.sql)
-
-Here's the breakdown of inventory risk:
-- **Critical Gaps:** The "Magic Sand" product at the Zacatecas location is causing the highest daily loss.
-- **Immediate Fix:** These top 10 items require immediate restocking to capture lost sales.
-
-![Inventory Risk](images/top-10-critical-inventory-revenue-at-risk.png)
-*Bar graph visualizing the estimated daily revenue loss per stockout item*
-
-### 8. Daily Sales Patterns
-To assist operations, I analyzed which days of the week generate the most revenue for each store using Pivot logic.
-
-* **View SQL Query:** [8_daily_sales_patterns_by_store.sql](sql_queries/8_daily_sales_patterns_by_store.sql)
-
-- **Peak Days:** Saturdays are consistently the busiest days across almost all locations.
-- **Staffing:** Schedules should be adjusted to maximize staff presence on weekends to handle the volume shown in the heatmap.
-
-![Weekly Heatmap](images/store-weekly-sales-contribution-heatmap-table.png)
-*Heatmap table showing sales intensity by day of the week*
-
-# What I Learned
-
-Throughout this project, I deepened my SQL toolkit significantly to handle retail scenarios:
-
-- **🧩 Advanced CTEs & Window Functions:** Mastered using `WITH` clauses to break down complex logic and `SUM() OVER()` or `LAG()` for cumulative totals and growth trends.
-- **📉 Business Logic Implementation:** Learned how to translate business concepts (like "Stockout Loss" or "Pareto Principle") into executable SQL code.
-- **🧹 Data Cleaning & Casting:** Handled raw data inconsistencies, date formatting (`TO_CHAR`), and type casting directly within the database.
-
-# Conclusions
-
-### Insights
-From the analysis, several strategic insights emerged:
-
-1.  **Prioritize Airport Expansion:** Despite having fewer stores, Airport locations perform significantly better per unit than Residential ones.
-2.  **Fix the Supply Chain:** The company is bleeding revenue on daily stockouts of its most popular items (like Magic Sand). A targeted restocking plan is needed.
-3.  **Optimize the Catalog:** A large portion of the product catalog contributes very little to the bottom line (Long Tail). These should be candidates for discontinuation.
-4.  **Staffing Optimization:** Saturdays are consistently the busiest days, requiring maximum staff allocation to prevent service bottlenecks.
-
-### Closing Thoughts
-This project highlights that while **Excel** is great for the final chart, **SQL** is the indispensable engine for processing the logic, relationships, and aggregations required to derive these insights from raw data.
+# Assumptions and Caveats:
+Throughout the analysis, multiple assumptions were made to manage challenges with the data:
+* It is assumed that days with zero `stock_on_hand` in the inventory table correspond directly to missed sales opportunities, calculated against the historical daily average sales of that specific store-product combination.
+* Cost and retail pricing for the 35 products are assumed to be static across the analyzed period, as historical price-change logs were not provided in the dataset.
