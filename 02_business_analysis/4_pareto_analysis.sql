@@ -61,14 +61,13 @@ SELECT
 
     -- individual_contribution_pct: Quantifies the specific revenue weight of each SKU
     ROUND(
-        (ttm_revenue / NULLIF(global_total_revenue, 0)) * 100, 
-        3
-    ) AS individual_contribution_pct,
+        (ttm_revenue / NULLIF(global_total_revenue, 0)), 
+    5) AS individual_contribution_pct,
 
     -- Step 3: Calculate Cumulative Revenue Percentage
     ROUND(
-        (running_total_revenue / NULLIF(global_total_revenue, 0)) * 100, 
-    2) AS cumulative_revenue_pct
+        (running_total_revenue / NULLIF(global_total_revenue, 0)), 
+    4) AS cumulative_revenue_pct
 
 FROM
     pareto_calculations
