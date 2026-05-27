@@ -7,11 +7,9 @@ Insights and recommendations are provided on the following key areas:
 - **Sales Trends & Seasonality:** Evaluating overall YoY growth and monthly cyclical patterns.
 - **Location & Footprint Efficiency:** Assessing the actual financial yield of different store locations.
 - **Product Portfolio Optimization:** Identifying the core drivers of revenue vs. dead stock.
-- **Supply Chain & Operational Risk:** Quantifying the daily financial impact of inventory stockouts.
+- **Supply Chain & Operational Risk:** Quantifying the daily financial impact of inventory stockouts.  
 
-The SQL queries used to inspect and clean the data for this analysis can be found here [Link to SQL file].
-
-Targeted SQL queries regarding various business questions can be found here [Link to SQL file].
+Targeted SQL queries regarding various business questions can be found [here](02_business_analysis).
 
 An interactive Power BI dashboard used to report and explore sales and inventory trends can be found here [Link to Dashboard].
 
@@ -21,8 +19,9 @@ The company's main database structure consists of four interconnected tables con
 - **products_dim:** Contains product-level details including product name, category, cost, and retail price.
 - **stores_dim:** Contains geographical and categorical data for the 50 branches, including location type and city.
 - **inventory_dim:** Contains daily stock-on-hand snapshots for every product at every store location.
+- **calendar_dim:** Contains temporal attributes including specific dates, day names, day of the week numbers, months, and years to enable deep time-series and seasonality analytics.  
 
-[Entity Relationship Diagram here]
+![Entity Relationship Diagram](assets/entity_relationship_diagram.gif)
 
 # Executive Summary
 ### Overview of Findings
