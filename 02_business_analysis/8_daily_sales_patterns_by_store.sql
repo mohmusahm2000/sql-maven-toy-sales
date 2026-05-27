@@ -18,6 +18,7 @@ Analytical Approach:
 =============================================================================
 */
 
+CREATE OR REPLACE VIEW v_daily_sales_patterns_by_store AS
 WITH daily_store_metrics AS (
     -- Pre-aggregates sales data to the required grain (Store x Day) for downstream analysis.
     SELECT
@@ -65,9 +66,9 @@ SELECT
     -- Strategic KPI: Revenue Contribution %
     -- Isolates high-value operating days to prioritize inventory availability and promotional focus.
     ROUND(
-        100.0 * daily_revenue / 
+        daily_revenue / 
         SUM(daily_revenue) OVER (PARTITION BY store_id),
-        2
+        4
     ) AS pct_of_store_revenue
 
 FROM

@@ -23,6 +23,7 @@ Logic:
 =============================================================================
 */
 
+CREATE OR REPLACE VIEW v_location_profitability AS
 WITH analysis_timeframe AS (
     -- 🔧 CONFIGURATION: Define the scope of analysis
     SELECT 

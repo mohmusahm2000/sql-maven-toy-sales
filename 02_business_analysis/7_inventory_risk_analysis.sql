@@ -20,6 +20,7 @@ Methodology:
 =============================================================================
 */
 
+CREATE OR REPLACE VIEW v_inventory_risk_analysis AS
 WITH product_sales_velocity AS (
     -- 1. Calculate Average Daily Sales (Run Rate)
     -- Aggregates TTM sales to establish a baseline for daily demand.

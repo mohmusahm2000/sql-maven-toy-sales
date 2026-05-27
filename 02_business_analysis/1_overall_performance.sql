@@ -28,6 +28,7 @@ Key Metrics:
 =============================================================================
 */
 
+CREATE OR REPLACE VIEW v_overall_performance AS
 WITH revenue_snapshot AS (
     SELECT
         -- 1. Current Run Rate (Trailing 12 Months)

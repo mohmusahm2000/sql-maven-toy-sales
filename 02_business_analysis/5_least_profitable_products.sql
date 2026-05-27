@@ -19,6 +19,7 @@ Logic:
 =============================================================================
 */
 
+CREATE OR REPLACE VIEW v_least_profitable_products AS
 SELECT
     p.product_id,
     p.product_name,

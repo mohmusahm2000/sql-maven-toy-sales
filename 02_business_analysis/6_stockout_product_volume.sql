@@ -20,6 +20,7 @@ Logic:
 =============================================================================
 */
 
+CREATE OR REPLACE VIEW v_stockout_product_volume AS
 SELECT
     st.store_id,
     st.store_name,

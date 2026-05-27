@@ -19,6 +19,7 @@ Key Techniques:
 =============================================================================
 */
 
+CREATE OR REPLACE VIEW v_monthly_sales_trend AS
 WITH monthly_sales AS (
     -- 1. Aggregating transaction-level data into monthly snapshots
     SELECT

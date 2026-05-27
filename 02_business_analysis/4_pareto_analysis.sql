@@ -19,6 +19,7 @@ Methodology:
 =============================================================================
 */
 
+CREATE OR REPLACE VIEW v_pareto_analysis AS
 WITH revenue_aggregation AS (
     -- Step 1: Calculate Total Revenue (TTM) per Product
     SELECT
